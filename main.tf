@@ -16,6 +16,16 @@ resource "aws_s3_bucket" "processed_bucket" {
   }
 }
 
+resource "aws_dynamodb_table" "event_driven_dynamodb_table"{
+    name = "terraform_event_driven_state_locks"
+    billinf_mode = "PAY_PER_REQUEST"
+    hash_key = "LockID"
+attribute{
+    name ="LockID"
+    type="S"
+}
+}
+  
 resource "aws_lambda_function" "image_processor" {
   function_name    = "image_processor"
   role            = aws_iam_role.lambda_role.arn
